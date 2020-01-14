@@ -1,63 +1,92 @@
+import PropTypes from 'prop-types';
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TextInput, Image} from 'react-native';
+import {TextInput, Text, View, StyleSheet} from 'react-native';
+
+const propTypes = {
+  mapElement: PropTypes.func,
+  onSubmitEditing: PropTypes.func,
+  onChangeText: PropTypes.func,
+  value: PropTypes.string,
+  placeholder: PropTypes.string,
+  maxLength: PropTypes.number,
+  keyboardType: PropTypes.string,
+  secureTextEntry: PropTypes.bool,
+  label: PropTypes.string,
+};
 
 const defaultProps = {
   mapElement: n => {},
   onSubmitEditing: () => {},
+  onChangeText: () => {},
   value: '',
   placeholder: '',
   maxLength: 200,
   keyboardType: 'default',
   secureTextEntry: false,
-  returnKeyType: 'next',
-  label: 'Label',
-  style: {},
-  isPassword: false,
-  onIconPress: () => {},
+  label: '',
 };
 
-class InputText extends Component {
-  constructor(props) {
-    super(props);
-    this.mapElement = this.mapElement.bind(this);
+const styles = StyleSheet.create({
+  inputBox: {
+    width: 300,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    borderRadius: 5,
+    borderColor:'#000',
+    paddingHorizontal: 16,
+    fontSize: 16,
+    color: '#ffffff',
+    marginVertical: 10,
+  },
+});
+
+class InputText extends Component<{}> {
+  state = {
+    value: '',
+  };
+
+  componentDidMount() {
+    this.setState({
+      value: this.props.value,
+    });
   }
 
-  mapElement = node => {
-    this.props.mapElement(node);
+  onChangeText = value => {
+    this.setState(
+      {
+        value,
+      },
+      () => {
+        this.props.onChangeText(value);
+      },
+    );
   };
 
   render() {
+    const {
+      placeholder,
+      secureTextEntry,
+      keyboardType,
+      maxLength,
+      value,
+      onChangeText,
+      onSubmitEditing,
+    } = this.props;
     return (
-      <View style={[styles.textInputContainer, this.props.style]}>
-        <Text style={styles.textInputLabel}>{this.props.label}</Text>
+      <View>
         <TextInput
-          style={styles.textInputBox}
+          style={styles.inputBox}
           underlineColorAndroid="rgba(0,0,0,0)"
-          placeholderTextColor="rgba(51, 51, 51, 0.6)"
-          selectionColor="rgb(51, 51, 51)"
-          returnKeyType={this.props.returnKeyType}
-          placeholder={this.props.placeholder}
-          secureTextEntry={this.props.secureTextEntry}
-          keyboardType={this.props.keyboardType}
-          maxLength={this.props.maxLength}
-          onChangeText={this.props.onChangeText}
-          onBlur={this.props.onBlur}
-          onFocus={this.props.onFocus}
-          onSubmitEditing={this.props.onSubmitEditing}
+          placeholder={placeholder}
+          placeholderTextColor="rgba(255,255,255,0.8)"
+          selectionColor="#999999"
+          secureTextEntry={secureTextEntry}
+          keyboardType={keyboardType}
+          maxLength={maxLength}
+          returnKeyType="next"
+          value={this.state.value}
+          onSubmitEditing={onSubmitEditing}
+          onChangeText={this.onChangeText}
         />
-        {/*{this.props.isPassword &&
-                    <View style={componentstyles.passwordEyeIconCont}>
-                        <TouchableOpacity onPress={this.props.onIconPress}>
-                            <Icon
-                                name={this.props.secureTextEntry ? "eye" : "eye-off"}
-                                type="material-community"
-                                color="rgb(51, 51, 51)"
-                                size={28}
-                            />
-                        </TouchableOpacity>
-                    </View>
-
-    }*/}
       </View>
     );
   }
@@ -65,29 +94,6 @@ class InputText extends Component {
 
 InputText.defaultProps = defaultProps;
 
-export default InputText;
+InputText.propTypes = propTypes;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  textInputContainer: {
-    paddingHorizontal: 16,
-    marginTop: 32,
-  },
-  textInputLabel: {
-    color: 'rgb(15, 113, 184)',
-    fontSize: 16,
-  },
-  textInputBox: {
-    paddingHorizontal: 0,
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgb(204, 204, 204)',
-    paddingBottom: 5,
-    paddingTop: 12,
-    fontSize: 18,
-  },
-});
+export default InputText;

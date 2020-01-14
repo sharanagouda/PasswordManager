@@ -1,9 +1,9 @@
 import {combineReducers} from 'redux';
 import appReducer from './appReducer';
-import {reducer as form} from 'redux-form/immutable';
+import {reducer as formReducer} from 'redux-form';
 
 const rootReducer = combineReducers({
-  form,
+  form: formReducer,
   app: appReducer,
 });
 

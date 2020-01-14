@@ -1,150 +1,181 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TextInput, Image} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  StatusBar,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
+import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
-import {reduxForm, Field} from 'redux-form';
+import {InputText} from '../../components';
+// import { createNewUser } from "../actions/auth.actions";
 
-import {Button, InputText} from '../../components';
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#455a64',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  signupTextCont: {
+    flexGrow: 1,
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+    paddingVertical: 16,
+    flexDirection: 'row',
+  },
+  signupText: {
+    color: 'rgba(255,255,255,0.6)',
+    fontSize: 16,
+  },
+  signupButton: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  button: {
+    width: 300,
+    backgroundColor: '#1c313a',
+    borderRadius: 25,
+    marginVertical: 10,
+    paddingVertical: 13,
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#ffffff',
+    textAlign: 'center',
+  },
+  errorText: {
+    color: '#ffffff',
+    fontSize: 14,
+    paddingHorizontal: 16,
+    paddingBottom: 8,
+  },
+  inputBox: {
+    width: 300,
+    backgroundColor: 'rgba(255, 255,255,0.2)',
+    borderRadius: 25,
+    paddingHorizontal: 16,
+    fontSize: 16,
+    color: '#ffffff',
+    marginVertical: 10,
+  },
+});
 
-class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: '',
-      mobNumber: '',
-    };
-    this.onSubmit = this.onSubmit.bind(this);
-    this.focusNextField = this.focusNextField.bind(this);
-    this.inputs = {};
+class SignIn extends Component<{}> {
+  goBack() {
+    Actions.pop();
   }
-  /**
-   * @function focusNextField
-   * @description onClick of Input field it this function
-   */
-  focusNextField(id) {
-    this.inputs[id].focus();
-  }
 
-
-  /**
-   * @function onSubmit
-   * @description onClick of onSubmit method alert will popup
-   */
-  onSubmit = values => {
-    var object = {
-      email: values.email,
-      mobileNo: values.mobileNo ? values.mobileNo : null,
-    };
-    console.log('submit ', values);
+  createNewUser = async values => {
+    try {
+      const response = await this.props.dispatch(createNewUser(values));
+      if (!response.success) {
+        throw response;
+      }
+    } catch (error) {
+      //const newError = new ErrorUtils(error, "Signup Error");
+      //newError.showAlert();
+    }
   };
+
+  onSubmit = values => {
+    console.log(values)
+    this.createNewUser(values);
+  };
+
   renderTextInput = field => {
-    console.log('renderInput ', field);
     const {
       meta: {touched, error},
-      placeholder,
-      isPassword,
-      onIconPress,
-      keyboardType,
       label,
       secureTextEntry,
+      maxLength,
+      keyboardType,
+      placeholder,
       input: {onChange, ...restInput},
     } = field;
     return (
       <View>
         <InputText
           onChangeText={onChange}
-          keyboardType={keyboardType}
-          label={label}
-          onIconPress={onIconPress}
-          secureTextEntry={secureTextEntry}
-          isPassword={isPassword}
+          maxLength={maxLength}
           placeholder={placeholder}
+          keyboardType={keyboardType}
+          secureTextEntry={secureTextEntry}
+          label={label}
           {...restInput}
         />
-        <Text style={styles.errorText}>{touched ? error : ''}</Text>
+        {touched && error && <Text style={styles.errorText}>{error}</Text>}
       </View>
     );
   };
 
   render() {
-    const {value} = this.state;
-    const {handleSubmit} = this.props;
+    const {handleSubmit, createUser} = this.props;
     return (
       <View style={styles.container}>
-        <Text style={styles.instructions}>Login screen</Text>
-        <View>
-          <Field
-            style={{marginTop: 0}}
-            name="email"
-            label="Email"
-            keyboardType="email-address"
-            placeholder="Enter Email Address"
-            component={this.renderTextInput}
-          />
-          <Field
-            name="password"
-            label="Password"
-            component={this.renderTextInput}
-            placeholder="Enter Password"
-            onIconPress={this.onIconPress}
-            isPassword={true}
-            secureTextEntry={!this.state.isPasswordShown}
-          />
-        </View>
-        <View>
-          <Button
-            title="Login"
-            backgroundColor="rgb(15, 113, 184)"
-            onPress={handleSubmit(this.onSubmit)}
-          />
+        <Field
+          name="name"
+          placeholder="Name"
+          component={this.renderTextInput}
+        />
+        <Field
+          name="email"
+          placeholder="Email"
+          component={this.renderTextInput}
+        />
+        <Field
+          name="password"
+          placeholder="Password"
+          secureTextEntry={true}
+          component={this.renderTextInput}
+        />
+        <TouchableOpacity
+          style={styles.button}
+          onPress={handleSubmit(this.onSubmit)}>
+          <Text style={styles.buttonText}>Signup</Text>
+        </TouchableOpacity>
+        <View style={styles.signupTextCont}>
+          <Text style={styles.signupText}>Already have an account?</Text>
+          <TouchableOpacity onPress={this.goBack}>
+            <Text style={styles.signupButton}> Sign in</Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
   }
 }
 
-const mapStateToProps = state => ({});
+const validate = values => {
+  const errors = {};
+  if (!values.name) {
+    errors.name = 'Name is required';
+  }
+  if (!values.email) {
+    errors.email = 'Email is required';
+  }
+  if (!values.password) {
+    errors.password = 'Name is required';
+  }
+  return errors;
+};
 
-const mapDispatchToProps = dispatch => ({});
+mapStateToProps = state => ({
+  // createUser: state.authReducer.createUser
+});
+
+mapDispatchToProps = dispatch => ({
+  dispatch,
+});
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   reduxForm({
-    form: 'login',
+    form: 'register',
+    validate,
   }),
-)(Login);
-
-const styles = StyleSheet.create({
-  textInputContainer: {
-    paddingHorizontal: 16,
-    marginTop: 32,
-  },
-  textInputLabel: {
-    color: 'rgb(15, 113, 184)',
-    fontSize: 16,
-  },
-  textInputBox: {
-    paddingHorizontal: 0,
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgb(204, 204, 204)',
-    paddingBottom: 5,
-    paddingTop: 12,
-    fontSize: 18,
-  },
-  passwordEyeIconCont: {
-    position: 'absolute',
-    bottom: 6,
-    right: 16,
-    zIndex: 1,
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  errorText: {
-    color: 'red',
-    paddingHorizontal: 16,
-  },
-});
+)(SignIn);

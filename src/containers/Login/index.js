@@ -13,6 +13,10 @@
  * our component as container component.
  */
 import React, {Component} from 'react';
+import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { InputText } from '../../components';
 import {Text, View, SafeAreaView, Image, TouchableOpacity} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import styles from './style';
@@ -36,18 +40,68 @@ class Login extends Component {
     };
     this.handleViewContainerClick = this.handleViewContainerClick.bind(this);
   }
+
+
   handleViewContainerClick(id) {
     this.setState({
       buttonId: id,
     });
     //Alert.alert(`${this.state.buttonId}`);
-  }
+  };
+
+  createNewUser = async values => {
+    try {
+      const response = await this.props.dispatch(createNewUser(values));
+      if (!response.success) {
+        throw response;
+      }
+    } catch (error) {
+      //const newError = new ErrorUtils(error, "Signup Error");
+      //newError.showAlert();
+    }
+  };
+  onLogin = values => {
+    console.log(values)
+    this.createNewUser(values);
+  };
+
+  onSubmit = values => {
+    console.log(values)
+    this.createNewUser(values);
+  };
+
+  renderTextInput = field => {
+    const {
+      meta: { touched, error },
+      label,
+      secureTextEntry,
+      maxLength,
+      keyboardType,
+      placeholder,
+      input: { onChange, ...restInput },
+    } = field;
+    return (
+      <View>
+        <InputText
+          onChangeText={onChange}
+          maxLength={maxLength}
+          placeholder={placeholder}
+          keyboardType={keyboardType}
+          secureTextEntry={secureTextEntry}
+          label={label}
+          {...restInput}
+        />
+        {touched && error && <Text style={styles.errorText}>{error}</Text>}
+      </View>
+    );
+  };
 
   /**
    * @function render: Its one of the main functions of react component. It renders the JSX on the screen
    * In render() we are showing the Status Bar with backgroundColor as white.
    */
   render() {
+    const { handleSubmit, createUser } = this.props;
     return (
       <LinearGradient
         colors={['#20BBFF', '#0E85FF']}
@@ -91,17 +145,83 @@ class Login extends Component {
             <View className="firstView">
               <Text>Hi</Text>
               <Text style={styles.buttonText}>Sign in with Facebook</Text>
+              <Text>Hello</Text>
+              <Field
+                name="mobileNo"
+                placeholder="Enter Mobile Number"
+                component={this.renderTextInput}
+              />
+              <Field
+                name="mPin"
+                placeholder="Enter mPin"
+                component={this.renderTextInput}
+              />
+              <TouchableOpacity
+                style={styles.button}
+                onPress={handleSubmit(this.onLogin)}>
+                <Text style={styles.buttonText}>Signup</Text>
+              </TouchableOpacity>
             </View>
           )}
           {this.state.buttonId === 2 && (
-            <View className="secondView">
+            <View style={styles.secondViewMainContainer}>
               <Text>Hello</Text>
+              <Field
+                name="mobileNo"
+                placeholder="Enter Mobile Number"
+                component={this.renderTextInput}
+              />
+              <Field
+                name="mPin"
+                placeholder="Enter mPin"
+                component={this.renderTextInput}
+              />
+              <Field
+                name="ConfirmMPin"
+                placeholder="Confirm mPin"
+                secureTextEntry={true}
+                component={this.renderTextInput}
+              />
+              <TouchableOpacity
+                style={styles.button}
+                onPress={handleSubmit(this.onSubmit)}>
+                <Text style={styles.buttonText}>Signup</Text>
+              </TouchableOpacity>
             </View>
           )}
         </View>
       </LinearGradient>
     );
   }
-}
+};
 
-export default Login;
+
+const validate = values => {
+  const errors = {};
+  if (!values.name) {
+    errors.name = 'Name is required';
+  }
+  if (!values.email) {
+    errors.email = 'Email is required';
+  }
+  if (!values.password) {
+    errors.password = 'Name is required';
+  }
+  return errors;
+};
+
+mapStateToProps = state => ({
+  // createUser: state.authReducer.createUser
+});
+
+mapDispatchToProps = dispatch => ({
+  dispatch,
+});
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  reduxForm({
+    form: 'register',
+    validate,
+  }),
+)(Login);

@@ -28,7 +28,7 @@ import styles from './styles';
 
 import Home from './containers/Home';
 import SignIn from './containers/SignIn';
-import Login from "./containers/Login"
+import Login from './containers/Login';
 /**
  * @class Main
  * @extends Component
