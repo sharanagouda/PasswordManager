@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   secondViewMainContainer: {
-    backgroundColor: '#455a64',
+    paddingTop:20,
     flex: 1,
     alignItems: 'center',
   },

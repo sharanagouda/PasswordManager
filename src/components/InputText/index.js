@@ -29,12 +29,12 @@ const defaultProps = {
 const styles = StyleSheet.create({
   inputBox: {
     width: 300,
-    backgroundColor: 'rgba(255,255,255,0.2)',
+    backgroundColor: '#FFF',
     borderRadius: 5,
     borderColor:'#000',
     paddingHorizontal: 16,
     fontSize: 16,
-    color: '#ffffff',
+    color: '#000',
     marginVertical: 10,
   },
 });
@@ -77,7 +77,7 @@ class InputText extends Component<{}> {
           style={styles.inputBox}
           underlineColorAndroid="rgba(0,0,0,0)"
           placeholder={placeholder}
-          placeholderTextColor="rgba(255,255,255,0.8)"
+          placeholderTextColor="#787E8C"
           selectionColor="#999999"
           secureTextEntry={secureTextEntry}
           keyboardType={keyboardType}

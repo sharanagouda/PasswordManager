@@ -16,16 +16,17 @@ import React, {Component} from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { InputText } from '../../components';
+import { InputText, Button } from '../../components';
 import {Text, View, SafeAreaView, Image, TouchableOpacity} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import styles from './style';
+import {Action} from "react-native-router-flux"
+
 /**
  * @import styles object. This object have all the styles written for the screens.
  * the styles have been defined in a file named "styles" which is again importing
  * an object from theme file when our theme related styles have been defined.
  */
-
+import styles from './style';
 /**
  * @class Login
  * @extends Component
@@ -142,10 +143,7 @@ class Login extends Component {
           </View>
 
           {this.state.buttonId === 1 && (
-            <View className="firstView">
-              <Text>Hi</Text>
-              <Text style={styles.buttonText}>Sign in with Facebook</Text>
-              <Text>Hello</Text>
+            <View style={styles.secondViewMainContainer}>
               <Field
                 name="mobileNo"
                 placeholder="Enter Mobile Number"
@@ -156,16 +154,11 @@ class Login extends Component {
                 placeholder="Enter mPin"
                 component={this.renderTextInput}
               />
-              <TouchableOpacity
-                style={styles.button}
-                onPress={handleSubmit(this.onLogin)}>
-                <Text style={styles.buttonText}>Signup</Text>
-              </TouchableOpacity>
+               <Button title="SIGN IN" onPress={handleSubmit(this.onLogin)}/>
             </View>
           )}
           {this.state.buttonId === 2 && (
             <View style={styles.secondViewMainContainer}>
-              <Text>Hello</Text>
               <Field
                 name="mobileNo"
                 placeholder="Enter Mobile Number"
@@ -182,11 +175,7 @@ class Login extends Component {
                 secureTextEntry={true}
                 component={this.renderTextInput}
               />
-              <TouchableOpacity
-                style={styles.button}
-                onPress={handleSubmit(this.onSubmit)}>
-                <Text style={styles.buttonText}>Signup</Text>
-              </TouchableOpacity>
+              <Button title="SIGN UP" onPress={handleSubmit(this.onSubmit)}/>
             </View>
           )}
         </View>
