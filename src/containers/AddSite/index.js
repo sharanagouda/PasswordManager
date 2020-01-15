@@ -27,7 +27,7 @@ import {Text, View, SafeAreaView} from 'react-native';
  * @summary Represents Main class.
  * @description This is a Main class. It extends react Component class for using the functions comes along with it.
  */
-class About extends Component {
+class AddSite extends Component {
   /**
    * @function render: Its one of the main functions of react component. It renders the JSX on the screen
    * In render() we are showing the Status Bar with backgroundColor as white.
@@ -41,4 +41,4 @@ class About extends Component {
   }
 }
 
-export default About;
+export default AddSite;

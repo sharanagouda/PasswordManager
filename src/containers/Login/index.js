@@ -13,13 +13,14 @@
  * our component as container component.
  */
 import React, {Component} from 'react';
-import { Field, reduxForm } from 'redux-form';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { InputText, Button } from '../../components';
+import {Field, reduxForm} from 'redux-form';
+import {connect} from 'react-redux';
+import {compose} from 'redux';
+import {InputText, Button} from '../../components';
 import {Text, View, SafeAreaView, Image, TouchableOpacity} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {Action} from "react-native-router-flux"
+import {Actions} from 'react-native-router-flux';
+import {navigateTo} from '../../utils';
 
 /**
  * @import styles object. This object have all the styles written for the screens.
@@ -42,13 +43,12 @@ class Login extends Component {
     this.handleViewContainerClick = this.handleViewContainerClick.bind(this);
   }
 
-
   handleViewContainerClick(id) {
     this.setState({
       buttonId: id,
     });
     //Alert.alert(`${this.state.buttonId}`);
-  };
+  }
 
   createNewUser = async values => {
     try {
@@ -62,24 +62,26 @@ class Login extends Component {
     }
   };
   onLogin = values => {
-    console.log(values)
+    console.log(values);
     this.createNewUser(values);
+    navigateTo('home');
   };
 
   onSubmit = values => {
-    console.log(values)
+    console.log(values);
     this.createNewUser(values);
+    navigateTo('home');
   };
 
   renderTextInput = field => {
     const {
-      meta: { touched, error },
+      meta: {touched, error},
       label,
       secureTextEntry,
       maxLength,
       keyboardType,
       placeholder,
-      input: { onChange, ...restInput },
+      input: {onChange, ...restInput},
     } = field;
     return (
       <View>
@@ -102,7 +104,7 @@ class Login extends Component {
    * In render() we are showing the Status Bar with backgroundColor as white.
    */
   render() {
-    const { handleSubmit, createUser } = this.props;
+    const {handleSubmit, createUser} = this.props;
     return (
       <LinearGradient
         colors={['#20BBFF', '#0E85FF']}
@@ -154,7 +156,7 @@ class Login extends Component {
                 placeholder="Enter mPin"
                 component={this.renderTextInput}
               />
-               <Button title="SIGN IN" onPress={handleSubmit(this.onLogin)}/>
+              <Button title="SIGN IN" onPress={handleSubmit(this.onLogin)} />
             </View>
           )}
           {this.state.buttonId === 2 && (
@@ -175,15 +177,14 @@ class Login extends Component {
                 secureTextEntry={true}
                 component={this.renderTextInput}
               />
-              <Button title="SIGN UP" onPress={handleSubmit(this.onSubmit)}/>
+              <Button title="SIGN UP" onPress={handleSubmit(this.onSubmit)} />
             </View>
           )}
         </View>
       </LinearGradient>
     );
   }
-};
-
+}
 
 const validate = values => {
   const errors = {};

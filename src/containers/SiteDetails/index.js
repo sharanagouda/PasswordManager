@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class SignIn extends Component<{}> {
+class SiteDetails extends Component<{}> {
   goBack() {
     Actions.pop();
   }
@@ -84,7 +84,7 @@ class SignIn extends Component<{}> {
   };
 
   onSubmit = values => {
-    console.log(values)
+    console.log(values);
     this.createNewUser(values);
   };
 
@@ -178,4 +178,4 @@ export default compose(
     form: 'register',
     validate,
   }),
-)(SignIn);
+)(SiteDetails);

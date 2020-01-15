@@ -35,6 +35,8 @@ import {
 import styles from './styles';
 import {Images} from '../../assets/images';
 import PropTypes from 'prop-types';
+import {Actions} from 'react-native-router-flux';
+import {navigateTo} from '../../utils';
 
 const SearchBar = props => {
   let {onChange, search} = props;
@@ -78,10 +80,9 @@ SubHeader.defaultProps = {
   search: false,
 };
 const FAB = props => {
-  const {onClick} = props;
   return (
     <View style={styles.fab}>
-      <ClickView onPress={onClick}>
+      <ClickView onPress={() => navigateTo('sitedetails')}>
         <Image source={Images.add} style={styles.fabImage} />
       </ClickView>
     </View>
@@ -194,7 +195,7 @@ class Home extends Component {
 
   _renderItem = ({item}) => {
     return (
-      <View style={styles.siteRenderItems}>
+      <View style={styles.siteRenderItems} key={item.url}>
         <Image
           source={Images[item.siteName]}
           resizeMode="contain"
