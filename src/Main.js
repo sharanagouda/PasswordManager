@@ -26,9 +26,6 @@ import styles from './styles';
  * @import Routes for Screens
  */
 
-import Home from './containers/Home';
-import SignIn from './containers/SignIn';
-import Login from './containers/Login';
 import Routes from './config/Routes';
 /**
  * @class Main

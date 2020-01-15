@@ -82,7 +82,7 @@ SubHeader.defaultProps = {
 const FAB = props => {
   return (
     <View style={styles.fab}>
-      <ClickView onPress={() => navigateTo('sitedetails')}>
+      <ClickView onPress={() => navigateTo('addsite')}>
         <Image source={Images.add} style={styles.fabImage} />
       </ClickView>
     </View>

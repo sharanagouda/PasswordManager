@@ -1,44 +1,139 @@
-/**
- * @author Sharanagouda Konasirasagi <sharanagouda.k@robosoftin.com>
- * @version 1.0.0
- * @summary Main Screen for the application.
- * @description This is the Main Screen of the application.
- */
-
-/**
- * @import React compoment from "react" for creating custom react component and to use lifecycle
- * hooks come along with react.
- * @import StatusBar, View from "react-native" for creating our view.
- * @import connect from "react-redux" for connecting react compoenent with redux which will convert
- * our component as container component.
- */
 import React, {Component} from 'react';
-import {Text, View, SafeAreaView} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  StatusBar,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
+import {Field, reduxForm} from 'redux-form';
+import {connect} from 'react-redux';
+import {compose} from 'redux';
+import { ScanInput, SubToolbar} from '../../components';
+// import { createNewUser } from "../actions/auth.actions";
+import styles from './styles';
 
-/**
- * @import styles object. This object have all the styles written for the screens.
- * the styles have been defined in a file named "styles" which is again importing
- * an object from theme file when our theme related styles have been defined.
- */
-
-/**
- * @class Main
- * @extends Component
- * @summary Represents Main class.
- * @description This is a Main class. It extends react Component class for using the functions comes along with it.
- */
 class AddSite extends Component {
-  /**
-   * @function render: Its one of the main functions of react component. It renders the JSX on the screen
-   * In render() we are showing the Status Bar with backgroundColor as white.
-   */
-  render() {
+  goBack() {
+    Actions.pop();
+  }
+
+  createNewUser = async values => {
+    try {
+      const response = await this.props.dispatch(createNewUser(values));
+      if (!response.success) {
+        throw response;
+      }
+    } catch (error) {
+      //const newError = new ErrorUtils(error, "Signup Error");
+      //newError.showAlert();
+    }
+  };
+
+  onSubmit = values => {
+    console.log(values);
+    this.createNewUser(values);
+  };
+
+  renderTextInput = field => {
+    const {
+      meta: {touched, error},
+      label,
+      secureTextEntry,
+      maxLength,
+      keyboardType,
+      placeholder,
+      input: {onChange, ...restInput},
+    } = field;
     return (
-      <View style={{flex: 1}}>
-        <Text>sdf</Text>
+      <View>
+        <ScanInput
+          onChangeText={onChange}
+          maxLength={maxLength}
+          placeholder={placeholder}
+          keyboardType={keyboardType}
+          secureTextEntry={secureTextEntry}
+          label={label}
+          {...restInput}
+        />
+        {touched && error && <Text style={styles.errorText}>{error}</Text>}
+      </View>
+    );
+  };
+
+  render() {
+    const {handleSubmit, createUser} = this.props;
+    return (
+      <View style={styles.container}>
+        <SubToolbar title={this.props.title}/>
+        <Field
+          name="url"
+          placeholder=""
+          label="URL"
+          component={this.renderTextInput}
+        />
+        <Field
+          name="sitename"
+          placeholder=""
+          label="Site Name"
+          component={this.renderTextInput}
+        />
+        <Field
+          name="folder"
+          placeholder="picker"
+          label="Sector/Folder"
+          component={this.renderTextInput}
+        />
+        <Field
+          name="username"
+          placeholder=""
+          label="User Name"
+          component={this.renderTextInput}
+        />
+        <Field
+          name="sitepassword"
+          placeholder=""
+          label="Site Password"
+          secureTextEntry={true}
+          component={this.renderTextInput}
+        />
+        <TouchableOpacity
+          style={styles.button}
+          onPress={handleSubmit(this.onSubmit)}>
+          <Text style={styles.buttonText}>Submit</Text>
+        </TouchableOpacity>
       </View>
     );
   }
 }
 
-export default AddSite;
+const validate = values => {
+  const errors = {};
+  if (!values.name) {
+    errors.name = 'Name is required';
+  }
+  if (!values.email) {
+    errors.email = 'Email is required';
+  }
+  if (!values.password) {
+    errors.password = 'Name is required';
+  }
+  return errors;
+};
+
+mapStateToProps = state => ({
+  // createUser: state.authReducer.createUser
+});
+
+mapDispatchToProps = dispatch => ({
+  dispatch,
+});
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  reduxForm({
+    form: 'register',
+    validate,
+  }),
+)(AddSite);

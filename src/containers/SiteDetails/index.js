@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,66 +7,14 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import {Field, reduxForm} from 'redux-form';
-import {connect} from 'react-redux';
-import {compose} from 'redux';
-import {InputText} from '../../components';
+import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { ScanInput, SubToolbar } from '../../components';
 // import { createNewUser } from "../actions/auth.actions";
+import styles from './styles';
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#455a64',
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  signupTextCont: {
-    flexGrow: 1,
-    alignItems: 'flex-end',
-    justifyContent: 'center',
-    paddingVertical: 16,
-    flexDirection: 'row',
-  },
-  signupText: {
-    color: 'rgba(255,255,255,0.6)',
-    fontSize: 16,
-  },
-  signupButton: {
-    color: '#ffffff',
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  button: {
-    width: 300,
-    backgroundColor: '#1c313a',
-    borderRadius: 25,
-    marginVertical: 10,
-    paddingVertical: 13,
-  },
-  buttonText: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#ffffff',
-    textAlign: 'center',
-  },
-  errorText: {
-    color: '#ffffff',
-    fontSize: 14,
-    paddingHorizontal: 16,
-    paddingBottom: 8,
-  },
-  inputBox: {
-    width: 300,
-    backgroundColor: 'rgba(255, 255,255,0.2)',
-    borderRadius: 25,
-    paddingHorizontal: 16,
-    fontSize: 16,
-    color: '#ffffff',
-    marginVertical: 10,
-  },
-});
-
-class SiteDetails extends Component<{}> {
+class SiteDetails extends Component {
   goBack() {
     Actions.pop();
   }
@@ -90,17 +38,17 @@ class SiteDetails extends Component<{}> {
 
   renderTextInput = field => {
     const {
-      meta: {touched, error},
+      meta: { touched, error },
       label,
       secureTextEntry,
       maxLength,
       keyboardType,
       placeholder,
-      input: {onChange, ...restInput},
+      input: { onChange, ...restInput },
     } = field;
     return (
       <View>
-        <InputText
+        <ScanInput
           onChangeText={onChange}
           maxLength={maxLength}
           placeholder={placeholder}
@@ -115,36 +63,46 @@ class SiteDetails extends Component<{}> {
   };
 
   render() {
-    const {handleSubmit, createUser} = this.props;
+    const { handleSubmit, createUser } = this.props;
     return (
       <View style={styles.container}>
+        <SubToolbar title={this.props.title} />
         <Field
-          name="name"
-          placeholder="Name"
+          name="url"
+          placeholder=""
+          label="URL"
           component={this.renderTextInput}
         />
         <Field
-          name="email"
-          placeholder="Email"
+          name="sitename"
+          placeholder=""
+          label="Site Name"
           component={this.renderTextInput}
         />
         <Field
-          name="password"
-          placeholder="Password"
+          name="folder"
+          placeholder="picker"
+          label="Sector/Folder"
+          component={this.renderTextInput}
+        />
+        <Field
+          name="username"
+          placeholder=""
+          label="User Name"
+          component={this.renderTextInput}
+        />
+        <Field
+          name="sitepassword"
+          placeholder=""
+          label="Site Password"
           secureTextEntry={true}
           component={this.renderTextInput}
         />
         <TouchableOpacity
           style={styles.button}
           onPress={handleSubmit(this.onSubmit)}>
-          <Text style={styles.buttonText}>Signup</Text>
+          <Text style={styles.buttonText}>Submit</Text>
         </TouchableOpacity>
-        <View style={styles.signupTextCont}>
-          <Text style={styles.signupText}>Already have an account?</Text>
-          <TouchableOpacity onPress={this.goBack}>
-            <Text style={styles.signupButton}> Sign in</Text>
-          </TouchableOpacity>
-        </View>
       </View>
     );
   }

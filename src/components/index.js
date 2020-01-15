@@ -7,8 +7,11 @@ import ScanInput from './ScanInput';
 import ClickView from './ClickView';
 import TitleDash from './TitleDash';
 import DropDown from './DropDown';
+import SubToolbar from "./SubToolbar";
+
 export {
   Toolbar,
+  SubToolbar,
   Phone,
   Button,
   InputText,
