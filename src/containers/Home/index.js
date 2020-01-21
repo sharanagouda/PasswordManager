@@ -23,7 +23,9 @@ import {
   FlatList,
   TextInput,
   Clipboard,
+  TouchableHighlight,
   TouchableOpacity,
+  Modal,
 } from 'react-native';
 import {
   TitleDash,
@@ -31,12 +33,14 @@ import {
   ClickView,
   Toolbar,
   ListItem,
+  ModalViwComponent,
 } from '../../components';
 import styles from './styles';
 import {Images} from '../../assets/images';
 import PropTypes from 'prop-types';
 import {Actions} from 'react-native-router-flux';
 import {navigateTo} from '../../utils';
+import userData from '../../dataBase/Userdb.json';
 
 const SearchBar = props => {
   let {onChange, search} = props;
@@ -93,6 +97,48 @@ FAB.propTypes = {
   onClick: PropTypes.func.isRequired,
 };
 
+const ModalView = props => {
+  return (
+    <Modal
+      visible={props.Visibility}
+      transparent={true}
+      animationType="fade"
+      onRequestClose={() => {
+        this.Cancel_Custom_Alert(!this.state.Visibility);
+      }}>
+      <View
+        style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          elevation: 4,
+        }}>
+        <View
+          style={{
+            backgroundColor: '#FFF',
+            height: 300,
+            width: '60%',
+            borderWidth: 1,
+            borderColor: 'red',
+            borderRadius: 5,
+          }}>
+          <Text style={styles.Alert_Message}> Permissions </Text>
+          <View style={{flexDirection: 'row', height: '20%'}}>
+            <TouchableOpacity
+              // onPress={this.onPressUpdateLanguage(!this.state.Visibility)}
+              onPress={() => {
+                this.Ok_Custom_Alert(!props.Visibility);
+              }}
+              activeOpacity={0.7}>
+              <Text style={styles.OkTextStyle}> OK </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    </Modal>
+  );
+};
+
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -102,44 +148,9 @@ class Home extends Component {
       search: '',
       category: 'social',
       isSearchActive: false,
-      data: [
-        {
-          url: 'www.facebook.com',
-          siteName: 'facebook',
-          title: 'Facebook',
-          sector: 'social',
-          userName: 'sharanu.mk',
-          password: '12345',
-          note: 'Hello Sharan',
-        },
-        {
-          url: 'www.youtube.com',
-          siteName: 'youtube',
-          sector: 'personal',
-          title: 'YouTube',
-          userName: 'sharanagouda',
-          password: '12345',
-          note: 'Hello Sharanagouda',
-        },
-        {
-          url: 'www.twitter.com',
-          siteName: 'twitter',
-          sector: 'social',
-          title: 'Twitter',
-          userName: 'sharanu.mk',
-          password: '12345',
-          note: 'Hello sharanu',
-        },
-        {
-          url: 'www.instagram.com',
-          siteName: 'instagram',
-          sector: 'social',
-          title: 'Instagram',
-          userName: 'sharana',
-          password: '12345',
-          note: 'Hello Sharanu',
-        },
-      ],
+      modalVisible: false,
+      Alert_Visibility: false,
+      data: userData,
     };
   }
 
@@ -224,7 +235,19 @@ class Home extends Component {
     const {data} = this.state;
     return (
       <View style={[{...StyleSheet.absoluteFill}, styles.container]}>
-        <Toolbar toolbarName="Password Manager" />
+        <Toolbar
+          toolbarName="Password Manager"
+          onPress={() =>
+            this.setState({
+              isSearchActive: !this.state.isSearchActive,
+            })
+          }
+          onPressProfile={() =>
+            this.setState({
+              Visibility: !this.state.Visibility,
+            })
+          }
+        />
         <SubHeader {...this.subHeaderParams()} />
         <FlatList
           data={this.filter()}
@@ -232,6 +255,7 @@ class Home extends Component {
           renderItem={this._renderItem}
         />
         <FAB onClick={() => this.addSites()} />
+        <ModalView Visibility={this.state.Visibility} />
       </View>
     );
   }

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {
     View,
     TouchableOpacity,
-    TouchableNativeFeedback,
     Platform
 } from "react-native";
 import PropTypes from "prop-types";
@@ -11,9 +10,9 @@ const ClickView = props => {
     const { style } = props;
     if (Platform.OS === "android") {
         return (
-            <TouchableNativeFeedback onPress={props.onPress}>
+            <TouchableOpacity onPress={props.onPress}>
                 <View style={style}>{props.children}</View>
-            </TouchableNativeFeedback>
+            </TouchableOpacity>
         );
     } else {
         return (

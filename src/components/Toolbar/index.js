@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, TouchableNativeFeedback, Image} from 'react-native';
+import {View, Text, TouchableOpacity, Image} from 'react-native';
 
 import styles from './styles';
 
@@ -14,27 +14,27 @@ class Toolbar extends Component {
     return (
       <View style={styles.toolbarContainer}>
         <View style={styles.menubar}>
-          <TouchableNativeFeedback onPress={this.props.openDrawer}>
+          <TouchableOpacity onPress={this.props.openDrawer}>
             <Image source={require('../../assets/images/burger_menu.png')} />
-          </TouchableNativeFeedback>
+          </TouchableOpacity>
         </View>
         <View style={styles.screenTitlebar}>
           <Image source={require('../../assets/images/PASS_MANAGER.png')} />
         </View>
         <View style={styles.searchIcon}>
-          <TouchableNativeFeedback onPress={this.props.openDrawer}>
+          <TouchableOpacity onPress={this.props.onPress}>
             <Image source={require('../../assets/images/search.png')} />
-          </TouchableNativeFeedback>
+          </TouchableOpacity>
         </View>
         <View style={styles.cloudIcon}>
-          <TouchableNativeFeedback onPress={this.props.openDrawer}>
+          <TouchableOpacity onPress={this.props.openDrawer}>
             <Image source={require('../../assets/images/sync_icn.png')} />
-          </TouchableNativeFeedback>
+          </TouchableOpacity>
         </View>
         <View style={styles.profileIcon}>
-          <TouchableNativeFeedback onPress={this.props.openDrawer}>
+          <TouchableOpacity onPress={this.props.onPressProfile}>
             <Image source={require('../../assets/images/profile.png')} />
-          </TouchableNativeFeedback>
+          </TouchableOpacity>
         </View>
       </View>
     );

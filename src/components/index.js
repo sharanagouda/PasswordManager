@@ -8,6 +8,7 @@ import ClickView from './ClickView';
 import TitleDash from './TitleDash';
 import DropDown from './DropDown';
 import SubToolbar from "./SubToolbar";
+import ModalViwComponent from "./ModleView";
 
 export {
   Toolbar,
@@ -20,4 +21,5 @@ export {
   ClickView,
   TitleDash,
   DropDown,
+  ModalViwComponent
 };

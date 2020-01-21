@@ -28,7 +28,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 16,
     marginHorizontal: 16,
-    paddingLeft:90
+    paddingLeft:90,
+    paddingTop:20
   },
   cloudIcon: {
     height: 56,
