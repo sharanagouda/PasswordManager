@@ -100,39 +100,45 @@ FAB.propTypes = {
 const ModalView = props => {
   return (
     <Modal
-      visible={props.Visibility}
+      visible={props.modalVisible}
       transparent={true}
       animationType="fade"
       onRequestClose={() => {
-        this.Cancel_Custom_Alert(!this.state.Visibility);
+        this.Cancel_Custom_Alert(!this.state.modalVisible);
       }}>
       <View
         style={{
           flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
+          alignItems:"flex-end",
           elevation: 4,
         }}>
         <View
           style={{
             backgroundColor: '#FFF',
-            height: 300,
-            width: '60%',
+            height: 70,
+            width: '50%',
+            marginTop:55,
+            marginRight:15,
             borderWidth: 1,
             borderColor: 'red',
             borderRadius: 5,
           }}>
-          <Text style={styles.Alert_Message}> Permissions </Text>
-          <View style={{flexDirection: 'row', height: '20%'}}>
-            <TouchableOpacity
-              // onPress={this.onPressUpdateLanguage(!this.state.Visibility)}
-              onPress={() => {
-                this.Ok_Custom_Alert(!props.Visibility);
-              }}
-              activeOpacity={0.7}>
+          <TouchableOpacity onPress={() => { alert("Hi") }}
+            activeOpacity={0.7}>
+            <View style={{ flexDirection: 'row',justifyContent:"space-between", padding:5 }}>
+              <Text style={styles.OkTextStyle}> Change Password </Text>
               <Text style={styles.OkTextStyle}> OK </Text>
+            </View>
+          </TouchableOpacity>
+          
+            <TouchableOpacity  onPress={() => {alert("hello") }}
+              activeOpacity={0.7}>
+            <View style={{ flexDirection: 'row', justifyContent:"space-between", padding:10 }}>
+              <Text style={styles.OkTextStyle}>Sign Out</Text>
+              <Text style={styles.OkTextStyle}> OK </Text>
+            </View>
             </TouchableOpacity>
-          </View>
+         
         </View>
       </View>
     </Modal>
@@ -149,7 +155,6 @@ class Home extends Component {
       category: 'social',
       isSearchActive: false,
       modalVisible: false,
-      Alert_Visibility: false,
       data: userData,
     };
   }
@@ -244,7 +249,7 @@ class Home extends Component {
           }
           onPressProfile={() =>
             this.setState({
-              Visibility: !this.state.Visibility,
+              modalVisible: !this.state.modalVisible,
             })
           }
         />
@@ -255,7 +260,7 @@ class Home extends Component {
           renderItem={this._renderItem}
         />
         <FAB onClick={() => this.addSites()} />
-        <ModalView Visibility={this.state.Visibility} />
+        <ModalView modalVisible={this.state.modalVisible} />
       </View>
     );
   }
