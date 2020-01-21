@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableNativeFeedback, Image } from 'react-native';
+import { View, Text,  TouchableOpacity, Image } from 'react-native';
 
 import styles from './style';
 
@@ -14,9 +14,9 @@ class SubToolbar extends Component {
         return (
             <View style={styles.toolbarContainer}>
                 <View style={styles.menubar}>
-                    <TouchableNativeFeedback onPress={this.props.openDrawer}>
+                    <TouchableOpacity onPress={this.props.openDrawer}>
                         <Image source={require('../../assets/images/burger_menu.png')} />
-                    </TouchableNativeFeedback>
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.screenTitlebar}>
                     <Text style={styles.titleStyle}>{this.props.title}</Text>
