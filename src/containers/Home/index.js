@@ -242,15 +242,17 @@ class Home extends Component {
       <View style={[{...StyleSheet.absoluteFill}, styles.container]}>
         <Toolbar
           toolbarName="Password Manager"
-          onPress={() =>
+          onPress={() =>{
             this.setState({
               isSearchActive: !this.state.isSearchActive,
-            })
+            });
+          alert(this.state.isSearchActive)}
           }
-          onPressProfile={() =>
+          onPress={() =>{
             this.setState({
-              modalVisible: !this.state.modalVisible,
-            })
+              isSearchActive: !this.state.isSearchActive,
+            });
+            alert(this.state.isSearchActive)}
           }
         />
         <SubHeader {...this.subHeaderParams()} />

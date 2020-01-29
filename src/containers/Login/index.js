@@ -120,7 +120,7 @@ class Login extends Component {
               }}>
               <Image
                 source={require('../../assets/images/logo.png')}
-                style={{width: 48, height: 60, paddingRight: 20}}
+                style={{width: 50, height: 60, paddingRight: 20}}
               />
               <Image
                 source={require('../../assets/images/PASS_MANAGER.png')}
@@ -129,13 +129,13 @@ class Login extends Component {
             </View>
             <View
               style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-              <View style={{}}>
+              <View style={(this.state.buttonId === 2) ? { padding: 10, } : { padding: 10, borderBottomColor: "blue", borderBottomWidth: 2 }}>
                 <TouchableOpacity
                   onPress={() => this.handleViewContainerClick(1)}>
                   <Text>SignIn</Text>
                 </TouchableOpacity>
               </View>
-              <View style={{}}>
+              <View style={(this.state.buttonId === 1) ? { padding: 10, } : { padding: 10,borderBottomColor: "blue", borderBottomWidth: 2}}>
                 <TouchableOpacity
                   onPress={() => this.handleViewContainerClick(2)}>
                   <Text>SignUp</Text>

@@ -32,7 +32,7 @@ class Toolbar extends Component {
           </TouchableOpacity>
         </View>
         <View style={styles.profileIcon}>
-          <TouchableOpacity onPress={this.props.onPressProfile}>
+          <TouchableOpacity onPress={this.props.onPress}>
             <Image source={require('../../assets/images/profile.png')} />
           </TouchableOpacity>
         </View>
