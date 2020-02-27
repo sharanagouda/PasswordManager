@@ -1,5 +1,5 @@
 import React from 'react';
-import {Router, Scene} from 'react-native-router-flux';
+import { Router, Scene } from 'react-native-router-flux';
 
 import AddSite from "../containers/AddSite";
 import Home from '../containers/Home';
@@ -12,9 +12,9 @@ export default class Routes extends React.Component {
       <Router>
         <Scene>
           <Scene key="auth" hideNavBar={true}>
-            <Scene key="login" component={Login} title="Login" initial={true} />
+            <Scene key="login" component={Login} title="Login" />
             <Scene key="home" component={Home} title="Home" />
-            <Scene key="addsite" component={AddSite} title="Add Site" />
+            <Scene key="addsite" component={AddSite} title="Add Site" initial={true} />
             <Scene key="sitedetails" component={SiteDetails} title="Site Details" />
           </Scene>
         </Scene>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text,  TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 
 import styles from './style';
 
@@ -12,7 +12,7 @@ defaultProps = {
 class SubToolbar extends Component {
     render() {
         return (
-            <View style={styles.toolbarContainer}>
+            <View style={[styles.toolbarContainer, this.props.styles]}>
                 <View style={styles.menubar}>
                     <TouchableOpacity onPress={this.props.openDrawer}>
                         <Image source={require('../../assets/images/burger_menu.png')} />

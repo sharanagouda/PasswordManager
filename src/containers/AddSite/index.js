@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,10 +7,10 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import {Field, reduxForm} from 'redux-form';
-import {connect} from 'react-redux';
-import {compose} from 'redux';
-import { ScanInput, SubToolbar} from '../../components';
+import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { ScanInput, SubToolbar } from '../../components';
 // import { createNewUser } from "../actions/auth.actions";
 import styles from './styles';
 
@@ -38,13 +38,13 @@ class AddSite extends Component {
 
   renderTextInput = field => {
     const {
-      meta: {touched, error},
+      meta: { touched, error },
       label,
       secureTextEntry,
       maxLength,
       keyboardType,
       placeholder,
-      input: {onChange, ...restInput},
+      input: { onChange, ...restInput },
     } = field;
     return (
       <View>
@@ -63,46 +63,49 @@ class AddSite extends Component {
   };
 
   render() {
-    const {handleSubmit, createUser} = this.props;
+    const { handleSubmit, createUser } = this.props;
     return (
       <View style={styles.container}>
-        <SubToolbar title={this.props.title}/>
-        <Field
-          name="url"
-          placeholder=""
-          label="URL"
-          component={this.renderTextInput}
-        />
-        <Field
-          name="sitename"
-          placeholder=""
-          label="Site Name"
-          component={this.renderTextInput}
-        />
-        <Field
-          name="folder"
-          placeholder="picker"
-          label="Sector/Folder"
-          component={this.renderTextInput}
-        />
-        <Field
-          name="username"
-          placeholder=""
-          label="User Name"
-          component={this.renderTextInput}
-        />
-        <Field
-          name="sitepassword"
-          placeholder=""
-          label="Site Password"
-          secureTextEntry={true}
-          component={this.renderTextInput}
-        />
-        <TouchableOpacity
-          style={styles.button}
-          onPress={handleSubmit(this.onSubmit)}>
-          <Text style={styles.buttonText}>Submit</Text>
-        </TouchableOpacity>
+        <SubToolbar title={this.props.title} styles={{ backgroundColor: "red" }} />
+        <View style={styles.formContainer}>
+          <Field
+            name="url"
+            placeholder=""
+            label="URL"
+            component={this.renderTextInput}
+          />
+          <Field
+            name="sitename"
+            placeholder=""
+            label="Site Name"
+            component={this.renderTextInput}
+          />
+          <Field
+            name="folder"
+            placeholder="picker"
+            label="Sector/Folder"
+            component={this.renderTextInput}
+          />
+          <Field
+            name="username"
+            placeholder=""
+            label="User Name"
+            component={this.renderTextInput}
+          />
+          <Field
+            name="sitepassword"
+            placeholder=""
+            label="Site Password"
+            secureTextEntry={true}
+            component={this.renderTextInput}
+          />
+          <TouchableOpacity
+            style={styles.button}
+            onPress={handleSubmit(this.onSubmit)}>
+            <Text style={styles.buttonText}>Submit</Text>
+          </TouchableOpacity>
+        </View>
+
       </View>
     );
   }
